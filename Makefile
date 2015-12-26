@@ -3,52 +3,54 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dchristo <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/11/27 16:26:37 by dchristo          #+#    #+#              #
-#    Updated: 2015/12/26 16:30:27 by dchristo         ###   ########.fr        #
+#    Created: 2014/11/03 11:35:46 by ybarbier          #+#    #+#              #
+#    Updated: 2015/12/26 19:33:08 by dchristo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
+PATH_SRC = ./
+PATH_OBJ = ./
+PATH_INC = ./libft/
 
 CC = gcc
 
-FLAGS = -Wall -Werror -Wextra
+CFLAGS	= -Wall -Wextra -Werror -ansi -pedantic -Wshadow -Wno-missing-noreturn \
+		  -Wno-padded -Wno-unreachable-code -Wredundant-decls \
+		  -Wmissing-declarations
 
-SRC = $(shell ls -1 | grep "\.c")
+SRC =	main.c \
 
-OBJS = $(SRC:.c=.o)
+OBJ = $(patsubst %.c,%.o,$(addprefix $(PATH_SRC), $(SRC)))
 
-LIB = libft/libft.a
 
-all: $(NAME) 
- 
-$(NAME): 
-	@cd libft ; $(MAKE) -f Makefile
-	@$(CC) $(FLAGS) -c $(SRC)
-	@$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIB)
-	@echo"+------------------------+";
-	@echo"|  ______ _____  ______  |";
-	@echo"| |  ____|  __ \|  ____| |";
-	@echo"| | |__  | |  | | |__    |";
-	@echo"| |  __| | |  | |  __|   |";
-	@echo"| | |    | |__| | |      |";
-	@echo"| |_|    |_____/|_|      |";
-	@echo"|                        |";
-	@echo"+------------------------+";
-	
-%.o : %.c
-	$(CC) $(FLAGS) $< -o $@
+all: $(NAME)
 
-clean:	
-	rm -rf $(OBJS)
-	@cd libft ; $(MAKE) clean -f Makefile
+$(NAME): $(OBJ)
+	make -C libft/
+	$(CC) $(CFLAGS) -I $(PATH_INC) -c $(SRC)
+	$(CC) -o $(NAME) $(OBJ) -lm -L libft/ -lft -lmlx -framework OpenGL -framework AppKit
+	@echo "\033[1;34m";
+	@echo "+------------------------+";
+	@echo "|  ______ _____  ______  |";
+	@echo "| |  ____|  __ \|  ____| |";
+	@echo "| | |__  | |  | | |__    |";
+	@echo "| |  __| | |  | |  __|   |";
+	@echo "| | |    | |__| | |      |";
+	@echo "| |_|    |_____/|_|      |";
+	@echo "|                        |";
+	@echo "+-----------by dchristo--+";
 
-fclean:	clean
-	rm -f $(NAME)
-	@cd libft ; $(MAKE) fclean -f Makefile	
-	
-re:	fclean all
+.PHONY: clean fclean
 
-.PHONY: all clean fclean re
+clean:
+	make -C libft/ clean
+	/bin/rm -f $(OBJ)
+
+fclean: clean
+	make -C libft/ fclean
+	/bin/rm -f $(NAME)
+
+re: fclean all
