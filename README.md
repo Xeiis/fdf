@@ -10,6 +10,9 @@ Authors : dchristo
 
 liste     | A faire | A tester | Fait
 ----------|:--------|:--------:|-----:
+Lire | | |
+Relier point | | |
+
 
 	"+------------------------+";
 	"|  ______ _____  ______  |";
