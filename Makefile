@@ -6,7 +6,7 @@
 #    By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 11:35:46 by ybarbier          #+#    #+#              #
-#    Updated: 2015/12/26 19:33:08 by dchristo         ###   ########.fr        #
+#    Updated: 2015/12/27 18:16:56 by dchristo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ $(NAME): $(OBJ)
 	@echo "|                        |";
 	@echo "+-----------by dchristo--+";
 
-.PHONY: clean fclean
+.PHONY: clean fclean re all
 
 clean:
 	make -C libft/ clean
