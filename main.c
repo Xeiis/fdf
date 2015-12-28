@@ -6,92 +6,72 @@
 /*   By: dchristo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/26 17:55:32 by dchristo          #+#    #+#             */
-/*   Updated: 2015/12/27 18:53:43 by dchristo         ###   ########.fr       */
+/*   Updated: 2015/12/28 21:38:07 by dchristo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
-#include <stdlib.h>
-#include "libft/libft.h"
-#include <unistd.h>
-#include <stdio.h>
+#include "fdf.h"
 
-void    my_pixel_put_to_image(unsigned int img_color, char *data, int sizeline, int bpp, int x, int y)
+static t_point		*save_point(t_point *point, char *line, int nbline)
 {
-	unsigned char color1;
-	unsigned char color2;
-	unsigned char color3;
-	color1 = (img_color & 0xFF0000) >> 16;
-	color2 = (img_color & 0xFF00) >> 8;
-	color3 = (img_color & 0xFF);
-	data[y * sizeline + x * bpp / 8 ] = color1;
-	data[y * sizeline + x * bpp / 8 + 1] = color2;
-	data[y * sizeline + x * bpp / 8 + 2] = color3;
-}
-int     main()
-{
-	void  *mlx_ptr;
-	void  *win_ptr;
-	void  *img_ptr;
-	unsigned int img_color;
-	char  *data;
-	int   bpp;
-	int   sizeline;
-	int   endian;
-	int   z;
-	int   y;
+	char			**array_split;
+	t_point			*tmp;
+	int				i;
 
-	z = 0;
-	y = 0;
-	mlx_ptr = mlx_init();
-	img_ptr = mlx_new_image(mlx_ptr, 500, 500);
-	data = mlx_get_data_addr(img_ptr, &bpp, &sizeline, &endian);
-	while (z < 500)
+	i = 0;
+	array_split = ft_strsplit(line, ' ');
+	while(array_split[i] != 0)
 	{
-		if (z >= 100 && z <= 400 && y >= 100 && y <= 400)
-		{
-			if (z % 50 == 0 || y % 50 == 0)
-			{
-				img_color = mlx_get_color_value(mlx_ptr, 0xFFFFFF);
-				my_pixel_put_to_image(img_color, data, sizeline, bpp, z, y);
-			}
-		}
-		z++;
-		if (z == 500 && y < 500)
-		{
-			z = 0;
-			y++;
-		}
+		if ((tmp = (t_point*)malloc(sizeof(t_point))) == NULL)
+			malloc_error();
+		point->x = i;
+		point->y = nbline;
+		point->z = ft_atoi(array_split[i]);
+		point->next = tmp;
+		point = point->next;
+		i++;
 	}
-	win_ptr = mlx_new_window(mlx_ptr, 500, 500, "FDF @42" );
-	mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 0, 0);
-  	mlx_loop(mlx_ptr);
+	return (point);
 }
 
-/*int		main(int ac, char **av)
-  {
-  void	*connection;
-  void	*window;
-  if (ac > 1)
-  {
-  if ((connection = mlx_init()) == NULL)
-  {
-  ft_putstr("fail");
-  return (0);
-  }*/
-/* on cree une window avec le pointeur de mlx init, on lui donne un x un y et un title */
-/*if ((window = mlx_new_window(connection, 1920, 1080, av[1])) == NULL)
-  {
-  ft_putstr("fail");
-  return (0);
-  }
-  mlx_loop(connection);
-  *//*supprime les informations dans la fenetre */
-/* mlx_clear_window(connection, window); */
-/* detruit la fenetre a faire au moment de l'appuie sur echap */
-/* mlx_destroy_window(connection, window); */
-/*}
-  else
-  ft_putstr("fail");
-  return(0);
-  }*/
+static t_point		*read_map(char *str, t_point *point)
+{
+	int				fd;
+	char 			*line;
+	int				nbline;
+
+	nbline = 0;
+	if ((fd = open(str, O_RDONLY)) == -1)
+		open_error();
+	while(get_next_line(fd, &line) > 0)
+	{
+		point = save_point(point, line, nbline);
+		nbline++;
+	}
+	return (point);
+}
+
+static	t_ptr		init_map(t_ptr ptr)
+{
+	ptr.mlx_ptr = mlx_init();
+	ptr.win_ptr = mlx_new_window(ptr.mlx_ptr, 1920, 1080, "FDF @42" );
+	return (ptr);
+}
+
+int					main(int argc, char **argv)
+{
+	t_ptr ptr;
+	t_point *point;
+
+	if (argc == 2)
+	{
+		if ((point = (t_point*)malloc(sizeof(t_point))) == NULL)
+			malloc_error();
+		point = read_map(argv[1], point);
+		ptr = init_map(ptr);
+  		mlx_loop(ptr.mlx_ptr);
+	}
+	else
+		arg_error();
+	return (0);
+}

@@ -6,7 +6,7 @@
 #    By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 11:35:46 by ybarbier          #+#    #+#              #
-#    Updated: 2015/12/27 18:16:56 by dchristo         ###   ########.fr        #
+#    Updated: 2015/12/28 21:38:43 by dchristo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ CFLAGS	= -Wall -Wextra -Werror -ansi -pedantic -Wshadow -Wno-missing-noreturn \
 		  -Wmissing-declarations
 
 SRC =	main.c \
+		fdf_error.c \
 
 OBJ = $(patsubst %.c,%.o,$(addprefix $(PATH_SRC), $(SRC)))
 
