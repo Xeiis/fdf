@@ -6,14 +6,14 @@
 /*   By: dchristo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/21 16:12:17 by dchristo          #+#    #+#             */
-/*   Updated: 2015/12/26 16:15:07 by dchristo         ###   ########.fr       */
+/*   Updated: 2016/01/19 13:18:16 by dchristo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "get_next_line.h"
 
-int		in_while(char **tmp, int *boucle, char **line, int i)
+static int		in_while(char **tmp, int *boucle, char **line, int i)
 {
 	tmp[0][i] = '\0';
 	*boucle = *boucle + 1;
@@ -29,48 +29,95 @@ int		in_while(char **tmp, int *boucle, char **line, int i)
 	return (0);
 }
 
-int		retour(int len, char *buf, char *save, int i)
+static int		recup_save_backline(char **line, int i, char *save,
+		char **to_free)
+{
+	char		*buf;
+	int			j;
+
+	if ((buf = ft_strnew(BUFF_SIZE)) == NULL)
+		return (-1);
+	j = 0;
+	while (save[++i] != '\n' && save[i] != '\0')
+		buf[i] = save[i];
+	buf[i] = '\0';
+	ft_strcpy(*line, buf);
+	if (save[i] == '\0')
+		ft_bzero(save, BUFF_SIZE);
+	if (save[i] == '\n')
+	{
+		while (save[i++] != '\0')
+			save[j++] = save[i];
+		if (to_free)
+		{
+			free(to_free[2]);
+			free(to_free);
+		}
+		return (1);
+	}
+	return (0);
+}
+
+static int		retour(int i, char **buf, char *save, char **line)
 {
 	int		j;
 
 	j = 0;
-	if (len == -1)
+	free(buf[0]);
+	free(buf[1]);
+	if (i == -1)
 		return (-1);
-	else if (buf[i] == '\n')
+	else if (buf[2][i] == '\n')
 	{
-		while (buf[++i])
-			save[j++] = buf[i];
+		while (buf[2][++i])
+			save[j++] = buf[2][i];
 		save[j] = '\0';
+		free(buf[2]);
+		free(buf);
 		return (1);
 	}
-	else
-		return (0);
+	else if (save[0] != '\0' && i == 0)
+		if (recup_save_backline(line, i - 1, save, buf))
+			return (1);
+	free(buf[2]);
+	free(buf);
+	return (*line[0] == '\0' && save[0] == '\0' ? 0 : 1);
 }
 
-int		init(char ***tmp, char **line, char **save)
+static int		init(char ***tmp, char **line, char **save, int fd)
 {
+	if (fd <= -1)
+		return (-1);
+	if (!line)
+		return (-1);
 	if ((*tmp = (char **)malloc(sizeof(char *) * 3)) == NULL)
 		return (-1);
 	if ((*line = ft_strnew(BUFF_SIZE)) == NULL)
 		return (-1);
 	if (!*save)
+	{
 		if ((*save = ft_strnew(BUFF_SIZE)) == NULL)
 			return (-1);
-	ft_strcpy(*line, *save);
+	}
+	else
+	{
+		if (recup_save_backline(line, -1, *save, NULL))
+			return (1);
+	}
 	return (0);
 }
 
-int		get_next_line(int const fd, char **line)
+int				get_next_line(int const fd, char **line)
 {
 	char				**tmp;
-	static	char		*save;
+	static	char		*save[256];
 	int					i;
 	int					boucle;
 
-	i = -1;
 	boucle = 0;
-	if ((init(&tmp, line, &save)) == -1)
-		return (-1);
+	if ((i = init(&tmp, line, &save[fd], fd)) != 0)
+		return (i);
+	i = -1;
 	while (++i < 3)
 		if ((tmp[i] = (char *)malloc((sizeof(char) * BUFF_SIZE + 1))) == NULL)
 			return (-1);
@@ -85,5 +132,5 @@ int		get_next_line(int const fd, char **line)
 		if (tmp[2][i] == '\n')
 			break ;
 	}
-	return (retour(i, tmp[2], save, i));
+	return (retour(i, tmp, save[fd], line));
 }

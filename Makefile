@@ -6,18 +6,16 @@
 #    By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 11:35:46 by ybarbier          #+#    #+#              #
-#    Updated: 2016/01/13 14:05:47 by dchristo         ###   ########.fr        #
+#    Updated: 2016/01/19 13:11:36 by dchristo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
-PATH_SRC = ./
-PATH_OBJ = ./
 PATH_INC = ./libft/
 
 CC = gcc
 
-CFLAGS	= -Wall -Wextra -Werror -ansi -pedantic -Wshadow -Wno-missing-noreturn \
+CFLAGS	= -Wall -Wextra -Werror# -ansi -pedantic -Wshadow -Wno-missing-noreturn \
 		  -Wno-padded -Wno-unreachable-code -Wredundant-decls \
 		  -Wmissing-declarations
 
