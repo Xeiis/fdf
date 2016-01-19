@@ -6,7 +6,7 @@
 /*   By: dchristo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/28 20:24:21 by dchristo          #+#    #+#             */
-/*   Updated: 2016/01/14 12:06:21 by dchristo         ###   ########.fr       */
+/*   Updated: 2016/01/19 14:25:46 by dchristo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,26 @@ typedef struct		s_point
 	int				y;
 	int				z;
 	struct s_point	*next;
+	struct s_point	*next_line;
 }					t_point;
 
-typedef struct		s_ptr
+typedef struc		s_img
 {
-	void			*mlx_ptr;
-	void			*win_ptr;
-}					t_ptr;
+	void			*img;
+	char			*data;
+	int				bpp;
+	int				sizeline;
+	int				endian;
+	int				width;
+	int				height;
+}					t_img
+
+typedef struct		s_env
+{
+	void			*mlx;
+	void			*win;
+	t_img			img;
+}					t_env;
 
 void				malloc_error(void);
 void				open_error(void);

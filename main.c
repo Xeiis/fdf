@@ -6,7 +6,7 @@
 /*   By: dchristo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/26 17:55:32 by dchristo          #+#    #+#             */
-/*   Updated: 2016/01/19 13:24:04 by dchristo         ###   ########.fr       */
+/*   Updated: 2016/01/19 14:34:31 by dchristo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,12 @@ static int			read_map(char *str, t_point **point)
 
 static	t_ptr		init_map(t_ptr ptr)
 {
+	ptr.img.width = 1920;
+	ptr.img.height = 1080;
 	ptr.mlx_ptr = mlx_init();
-	ptr.win_ptr = mlx_new_window(ptr.mlx_ptr, 1920, 1080, "FDF @42" );
+	ptr.img.img = mlx_new_image(ptr.mlx, ptr.img.width, ptr.img.height);
+	ptr.img.data = mlx_get_data_addr(ptr.img.img, &ptr.img.bpp, &ptr.img.sizeline, &ptr.img.endian);
+	ptr.win_ptr = mlx_new_window(ptr.mlx_ptr, ptr.img.width, ptr.img.height, "FDF @42" );
 	return (ptr);
 }
 
@@ -79,11 +83,15 @@ static	t_ptr		init_map(t_ptr ptr)
 		p = p->next;
 	}
 }*/
-
+int					expose_hook(t_env *env)
+{
+	mlx_put_image_to_window(env->mlx, end->win, env->img.img, 0, 0);
+	return (0);
+}
 
 int					main(int argc, char **argv)
 {
-	t_ptr ptr;
+	t_env env;
 	t_point *point;
 
 	if (argc == 2)
@@ -91,7 +99,11 @@ int					main(int argc, char **argv)
 		if ((point = (t_point *)malloc(sizeof(t_point))) == NULL)
 			malloc_error();
 		read_map(argv[1], &point);
-		ptr = init_map(ptr);
+		env = init_map(env);
+		// on ecrit des lignes;
+		// mon code pour tracer les lignes lues
+		mlx_put_image_to_window(env.mlx, env.win, env.img.img, 0, 0);
+		mlx_expose_hook(env.win, expose_hook, &env);
   		mlx_loop(ptr.mlx_ptr);
 	}
 	else
