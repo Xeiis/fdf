@@ -10,8 +10,10 @@ Authors : dchristo
 
 liste     | A faire | A tester | Fait
 ----------|:--------|:--------:|-----:
-Lire | | **X** |
-Relier point | | |
+Lire | | | **X**
+Relier point | | | **X**
+3D Iso | | | **X**
+Bonus | | | **X**
 
 
 	"+------------------------+";
@@ -22,4 +24,4 @@ Relier point | | |
 	"| | |    | |__| | |      |";
 	"| |_|    |_____/|_|      |";
 	"|                        |";
-	"+------------------------+";
+	"+-------*----by dchristo-+";

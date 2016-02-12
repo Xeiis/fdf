@@ -6,7 +6,7 @@
 #    By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 11:35:46 by ybarbier          #+#    #+#              #
-#    Updated: 2016/01/19 13:11:36 by dchristo         ###   ########.fr        #
+#    Updated: 2016/02/12 19:34:03 by dchristo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,7 @@ PATH_INC = ./libft/
 
 CC = gcc
 
-CFLAGS	= -Wall -Wextra -Werror# -ansi -pedantic -Wshadow -Wno-missing-noreturn \
-		  -Wno-padded -Wno-unreachable-code -Wredundant-decls \
-		  -Wmissing-declarations
+CFLAGS	= -Wall -Wextra -Werror
 
 SRC = $(shell ls -1 | grep "\.c")
 
@@ -29,7 +27,8 @@ $(NAME): $(OBJ)
 	make -C libft/
 	@echo "\033[0m";
 	$(CC) $(CFLAGS) -I $(PATH_INC) -c $(SRC)
-	$(CC) -o $(NAME) $(OBJS) -lm -L libft/ -lft -lmlx -framework OpenGL -framework AppKit
+	$(CC) -o $(NAME) $(OBJS) -lm -L libft/ -lft -lmlx \
+		-framework OpenGL -framework AppKit
 	@echo "\033[1;5;1;36m";
 	@echo "+------------------------+";
 	@echo "|  ______ _____  ______  |";
@@ -39,7 +38,7 @@ $(NAME): $(OBJ)
 	@echo "| | |    | |__| | |      |";
 	@echo "| |_|    |_____/|_|      |";
 	@echo "|                        |";
-	@echo "+-----------by dchristo--+";
+	@echo "+------------by dchristo-+";
 	@echo "\033[0m";
 
 .PHONY: clean fclean re all
