@@ -2,7 +2,7 @@
 Debut 26 Decembre 2015  
 Fin XX XXXXX 2016  
 Note : XX  
-Retry : XXX  
+Retry : 1  
 
 Projet FDF @42
 
