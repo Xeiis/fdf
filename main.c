@@ -6,7 +6,11 @@
 /*   By: dchristo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/26 17:55:32 by dchristo          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2016/02/13 16:04:15 by dchristo         ###   ########.fr       */
+=======
 /*   Updated: 2016/02/12 19:42:27 by dchristo         ###   ########.fr       */
+>>>>>>> cc8a0be8482ec10e88e0ffdab66fd6eaf773eaf6
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +26,13 @@ static t_point		*save_point(t_point **point, char *line, t_env *env)
 	array_split = ft_strsplit(line, ' ');
 	while (array_split[env->nbcol] != 0)
 	{
-		if (env->nbcol != 0)
-		{
-			if ((p->next = (t_point*)malloc(sizeof(t_point))) == NULL)
-				malloc_error();
-			p = p->next;
-		}
 		p->x = env->nbcol;
 		p->y = env->nbline;
 		p->z = -ft_atoi(array_split[env->nbcol]);
 		env->nbcol++;
+		if ((p->next = (t_point*)malloc(sizeof(t_point))) == NULL)
+			malloc_error();
+		p = p->next;
 	}
 	p->next = NULL;
 	return (p);
@@ -118,7 +119,7 @@ int					main(int argc, char **argv)
 		draw_all_line(&env.first, env);
 		mlx_put_image_to_window(env.mlx, env.win, env.img.img, 0, 0);
 		put_string(&env);
-		mlx_key_hook(env.win, key_hook, &env);
+		mlx_hook(env.win, 2, 1, key_hook, &env);
 		mlx_loop(env.mlx);
 	}
 	else

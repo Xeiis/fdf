@@ -6,7 +6,11 @@
 /*   By: ldubos <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 16:36:25 by ldubos            #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2016/02/13 15:45:12 by dchristo         ###   ########.fr       */
+=======
 /*   Updated: 2016/02/12 19:43:35 by dchristo         ###   ########.fr       */
+>>>>>>> cc8a0be8482ec10e88e0ffdab66fd6eaf773eaf6
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +88,7 @@ int						draw_all_line(t_point **point, t_env e)
 	t_point *p;
 
 	p = *point;
-	while (p->next->next != NULL)
+	while (p->next != NULL)
 	{
 		if (p->y == p->next->y)
 			draw_line(e, (t_point){p->x - p->y, (p->z * e.scale) + p->y + p->x,
