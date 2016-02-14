@@ -6,7 +6,7 @@
 /*   By: dchristo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/28 20:24:21 by dchristo          #+#    #+#             */
-/*   Updated: 2016/02/12 19:38:18 by dchristo         ###   ########.fr       */
+/*   Updated: 2016/02/14 14:44:50 by dchristo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ typedef struct		s_env
 	int				green;
 	int				blue;
 	int				move;
+	int				x_mul;
+	int				y_mul;
+	int				z_mul;
+	int				i;
 	struct s_point	*first;
 	t_img			img;
 }					t_env;

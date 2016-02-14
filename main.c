@@ -6,11 +6,7 @@
 /*   By: dchristo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/26 17:55:32 by dchristo          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2016/02/13 16:04:15 by dchristo         ###   ########.fr       */
-=======
-/*   Updated: 2016/02/12 19:42:27 by dchristo         ###   ########.fr       */
->>>>>>> cc8a0be8482ec10e88e0ffdab66fd6eaf773eaf6
+/*   Updated: 2016/02/14 15:31:57 by dchristo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +24,8 @@ static t_point		*save_point(t_point **point, char *line, t_env *env)
 	{
 		p->x = env->nbcol;
 		p->y = env->nbline;
-		p->z = -ft_atoi(array_split[env->nbcol]);
+		//p->z = -ft_atoi(array_split[env->nbcol]);
+		p->z = ft_atoi(array_split[env->nbcol]);
 		env->nbcol++;
 		if ((p->next = (t_point*)malloc(sizeof(t_point))) == NULL)
 			malloc_error();
@@ -63,10 +60,14 @@ static	t_env		init_map(t_env ptr, char *name)
 {
 	ptr.img.width = 2400;
 	ptr.img.height = 1400;
+	ptr.i = 1;
 	ptr.x = 0;
 	ptr.y = 0;
+	ptr.x_mul = 5;
+	ptr.y_mul = 1;
+	ptr.z_mul = 5;
 	ptr.zoom = 1;
-	ptr.scale = 0.1;
+	ptr.scale = 1;
 	ptr.red = 0;
 	ptr.green = 0;
 	ptr.blue = 255;

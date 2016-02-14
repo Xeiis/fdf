@@ -6,11 +6,7 @@
 /*   By: ldubos <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 16:36:25 by ldubos            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2016/02/13 15:45:12 by dchristo         ###   ########.fr       */
-=======
-/*   Updated: 2016/02/12 19:43:35 by dchristo         ###   ########.fr       */
->>>>>>> cc8a0be8482ec10e88e0ffdab66fd6eaf773eaf6
+/*   Updated: 2016/02/14 15:47:36 by dchristo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +79,18 @@ static void				draw_line(t_env e, t_point p1, t_point p2, int color)
 	}
 }
 
+t_point					to_2d_iso(int x, int y, int z, t_env e)
+{
+	t_point p;
+
+	p.x = x * e.x_mul + y * e.y_mul;
+	p.y = y * e.z_mul - cos(30 * M_PI / 180) * (z * e.scale) /*+ sin (30 * M_PI / 180) * (z * e.scale)*/;
+	p.z = 0;
+	p.next = NULL;
+	p.next_line = NULL;
+	return (p);
+}
+
 int						draw_all_line(t_point **point, t_env e)
 {
 	t_point *p;
@@ -91,15 +99,27 @@ int						draw_all_line(t_point **point, t_env e)
 	while (p->next != NULL)
 	{
 		if (p->y == p->next->y)
-			draw_line(e, (t_point){p->x - p->y, (p->z * e.scale) + p->y + p->x,
+			/*draw_line(e, (t_point){p->x - p->y, (p->z * e.scale) + p->y + p->x,
 			0, NULL, NULL}, (t_point){p->next->x - p->next->y,
 			(p->next->z * e.scale) + p->next->x + p->next->y, 0, NULL, NULL},
-			RGB(e.red, e.green, e.blue));
+			RGB(e.red, e.green, e.blue));*/
+			draw_line(e, to_2d_iso(p->x, p->y, p->z, e),
+			to_2d_iso(p->next->x, p->next->y, p->next->z, e),
+		   	p->z >= 1 || p->next->z >= 1 ?
+		   	p->z >= 30 || p->next->z >= 30 ?
+			p->z >= 100 || p->next->z >= 100 ?
+		   	RGB(255, 255, 255) : RGB(255, 150, 0) : RGB(0, 255, 0) : RGB(0, 0, 255));
 		if (p->next_line != NULL)
-			draw_line(e, (t_point){p->x - p->y, (p->z * e.scale) + p->y + p->x,
+			/*draw_line(e, (t_point){p->x - p->y, (p->z * e.scale) + p->y + p->x,
 			0, NULL, NULL}, (t_point){p->next_line->x - p->next_line->y,
 			(p->next_line->z * e.scale) + p->next_line->x + p->next_line->y, 0,
 			NULL, NULL}, RGB(e.red, e.green, e.blue));
+			*/draw_line(e,to_2d_iso(p->x, p->y, p->z, e),
+			to_2d_iso(p->next_line->x, p->next_line->y, p->next_line->z, e),
+		   	p->z >= 1  || p->next_line->z >= 1 ?
+		   	p->z >= 30 || p->next_line->z >= 30 ?
+			p->z >= 100 || p->next_line->z >= 100 ?
+		   	RGB(255, 255, 255) : RGB(255, 150, 0) : RGB(0, 255, 0) : RGB(0, 0, 255));
 		p = p->next;
 	}
 	return (1);
