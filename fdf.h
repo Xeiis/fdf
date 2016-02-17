@@ -6,7 +6,7 @@
 /*   By: dchristo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/28 20:24:21 by dchristo          #+#    #+#             */
-/*   Updated: 2016/02/14 14:44:50 by dchristo         ###   ########.fr       */
+/*   Updated: 2016/02/17 13:40:02 by dchristo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,8 @@ int					draw_all_line(t_point **point, t_env e);
 int					loop_hook(t_env *e);
 int					key_hook(int keycode, t_env *e);
 void				put_string(t_env *e);
+t_point				to_2d_iso(int x, int y, int z, t_env e);
+int					which_color(t_point *p);
+int					which_color_next(t_point *p);
 
 #endif

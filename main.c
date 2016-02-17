@@ -6,7 +6,7 @@
 /*   By: dchristo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/26 17:55:32 by dchristo          #+#    #+#             */
-/*   Updated: 2016/02/14 15:31:57 by dchristo         ###   ########.fr       */
+/*   Updated: 2016/02/17 13:32:31 by dchristo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static t_point		*save_point(t_point **point, char *line, t_env *env)
 	{
 		p->x = env->nbcol;
 		p->y = env->nbline;
-		//p->z = -ft_atoi(array_split[env->nbcol]);
 		p->z = ft_atoi(array_split[env->nbcol]);
 		env->nbcol++;
 		if ((p->next = (t_point*)malloc(sizeof(t_point))) == NULL)
