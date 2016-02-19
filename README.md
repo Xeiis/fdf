@@ -1,7 +1,7 @@
 # Fdf
 Debut 26 Decembre 2015  
-Fin XX XXXXX 2016  
-Note : XX  
+Fin 17 Fevrier 2016  
+Note : 115  
 Retry : 1  
 
 Projet FDF @42
